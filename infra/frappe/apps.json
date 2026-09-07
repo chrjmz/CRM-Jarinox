@@ -1,0 +1,19 @@
+[
+  {
+    "url": "https://github.com/frappe/erpnext",
+    "branch": "version-15"
+  },
+  {
+    "url": "https://github.com/frappe/crm",
+    "branch": "main"
+  },
+  {
+    "url": "https://github.com/frappe/ecommerce_integrations",
+    "branch": "version-15"
+  },
+  {
+    "url": "https://github.com/shridarpatil/frappe_whatsapp",
+    "branch": "version-15"
+  }
+]
+

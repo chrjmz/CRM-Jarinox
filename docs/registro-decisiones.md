@@ -53,4 +53,12 @@
 - Decisión: desplegar el piloto en el VPS `srv438792` (KVM 8, Ubuntu 22.04, 31 GB RAM), que **ya aloja ~26 sitios en producción** de otros proyectos.
 - Riesgo asumido: un error de configuración en Nginx afectaría a todos los sitios del servidor. Mitigación: Frappe se aísla en Docker escuchando solo en `127.0.0.1:8000`, se añade un `server block` nuevo sin modificar los existentes, y se conserva copia de `/etc/nginx` previa a cualquier cambio.
 - Ajustes respecto a D-006: el puerto 8080 está ocupado por Nginx, por lo que Frappe usa el **8000**; no se utiliza Caddy (`compose.caddy.yaml` queda sin uso) porque Nginx ya gestiona 80/443 y los certificados.
-- Nota: el servidor no tiene CloudPanel instalado, pese a que el panel de Hostinger lo mostraba; la configuración se hace directamente sobre Nginx.
+
+## D-008 — El sitio se crea desde CloudPanel, no editando Nginx a mano
+
+- Estado: aceptada.
+- Fecha: 2026-09-15.
+- Contexto: el servidor **sí tiene CloudPanel** (en `/home/clp`, con `clp-agent`, `clp-nginx` y el panel en el puerto 8443). Una comprobación inicial buscó en `/usr/local/cloudpanel` y concluyó erróneamente lo contrario.
+- Decisión: `crm.jarinox.com` se crea como sitio de tipo **Reverse Proxy** desde la interfaz de CloudPanel, apuntando a `http://127.0.0.1:8000`, y el certificado se emite con su integración de Let's Encrypt.
+- Motivo: los archivos de `/etc/nginx/sites-enabled/` los genera CloudPanel. Un vhost escrito a mano queda fuera de su control y el panel puede sobrescribirlo o eliminarlo al regenerar configuraciones, tumbando el sitio sin aviso.
+- Consecuencia: la creación del sitio es un paso manual en la interfaz; CloudPanel no expone una CLI para crear sitios.

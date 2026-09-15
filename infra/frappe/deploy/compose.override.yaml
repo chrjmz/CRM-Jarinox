@@ -1,0 +1,20 @@
+# Entorno srv438792 (D-007/D-008): Nginx de CloudPanel hace de proxy inverso.
+# Frappe escucha SOLO en localhost para no exponerse a internet.
+# pull_policy: never -> la imagen se construye en el servidor, no se descarga.
+services:
+  frontend:
+    pull_policy: never
+    ports:
+      - "127.0.0.1:8000:8080"
+  backend:
+    pull_policy: never
+  configurator:
+    pull_policy: never
+  websocket:
+    pull_policy: never
+  scheduler:
+    pull_policy: never
+  queue-short:
+    pull_policy: never
+  queue-long:
+    pull_policy: never

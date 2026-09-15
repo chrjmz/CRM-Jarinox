@@ -3,6 +3,12 @@
 .env.*
 !.env.example
 *.secret
+credenciales*
+credentials*
+*.pem
+*.key
+id_rsa*
+id_ed25519*
 
 # Entornos y datos de ejecución
 .runtime/

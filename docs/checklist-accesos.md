@@ -15,7 +15,7 @@ Marcar cada elemento solo cuando el acceso haya sido probado. No pegar secretos 
 - [x] Docker Desktop disponible para el smoke test local.
 - [x] Imagen local construida con las cuatro aplicaciones.
 - [x] Sitio local creado y endpoints básicos validados.
-- [ ] Alojamiento público elegido: Frappe Cloud o VPS.
+- [x] Alojamiento público elegido: **VPS con Docker** (descartado el hosting web de Hostinger; ver D-006).
 - [ ] Subdominio del piloto definido.
 - [ ] DNS administrable.
 - [ ] HTTPS válido.

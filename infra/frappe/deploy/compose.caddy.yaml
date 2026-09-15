@@ -1,0 +1,31 @@
+# Terminación TLS con Caddy (certificados Let's Encrypt automáticos).
+#
+# Se combina con el compose principal:
+#   docker compose --env-file .env \
+#     -f compose.prod.yaml -f compose.caddy.yaml up -d
+#
+# Requisito previo: el DNS de ${SITE_NAME} debe apuntar a la IP del VPS,
+# y los puertos 80 y 443 deben estar abiertos en el firewall.
+
+name: jarinox-crm
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_NAME: ${SITE_NAME}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  caddy-data:
+  caddy-config:

@@ -202,3 +202,35 @@ grep ADMIN_PASSWORD /opt/crm-jarinox/infra/frappe/deploy/.env
 ```
 
 Usuario del sitio: `Administrator`.
+
+## Publicación web — hecha (2026-09-17)
+
+`https://crm.jarinox.com` operativo: certificado Let's Encrypt válido hasta
+2026-12-16, HTTP redirige a HTTPS (301), sirve el login de Frappe.
+
+El vhost está versionado en `nginx-crm.jarinox.com.conf` y desplegado en
+`/etc/nginx/sites-available/crm.jarinox.com.conf`.
+
+**El certificado NO está en `/etc/letsencrypt`**, sino aislado en
+`/opt/crm-jarinox/web/letsencrypt`, para no mezclarlo con los 36 certificados
+de los demás sitios del servidor. Renovación automática ya programada por
+certbot. Para renovar a mano:
+
+```bash
+certbot renew --config-dir /opt/crm-jarinox/web/letsencrypt \
+  --work-dir /opt/crm-jarinox/web/le-work \
+  --logs-dir /opt/crm-jarinox/web/le-logs
+```
+
+### Riesgo pendiente
+
+Este vhost se creó **fuera de CloudPanel** (contra lo previsto en D-008),
+porque el panel no expone una CLI para crear sitios. Si CloudPanel regenera
+las configuraciones de Nginx puede eliminarlo y el sitio caería sin aviso.
+Antes de cargar datos reales conviene recrear el sitio desde el panel como
+*Reverse Proxy* a `http://127.0.0.1:8000` y retirar este archivo.
+
+### Sin `www`
+
+Solo existe `crm.jarinox.com`. `www.crm.jarinox.com` no tiene registro DNS y
+no está cubierto por el certificado; no se considera necesario.
